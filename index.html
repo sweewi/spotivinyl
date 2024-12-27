@@ -8,8 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background-color: #121212;
-      color: white;
+      background-color: #f4f4f4;
       margin: 0;
       padding: 0;
       display: flex;
@@ -17,14 +16,24 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      background-image: url('https://imgs.search.brave.com/LxQJIaxuEDlhsPPlqtyl5nonMLnyZ2VEI9k3zWfHHNY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dGhld2lyZWN1dHRl/ci5jb20vd3AtY29u/dGVudC9tZWRpYS8y/MDI0LzEyL0JFU1Qt/VFVSTlRBQkxFUy1S/RUNPUkQtUExBWUVS/Uy0yMDQ4cHgtcmVr/a29yZC1mMzAwLW92/ZXJoZWFkLmpwZz9h/dXRvPXdlYnAmcXVh/bGl0eT03NSZ3aWR0/aD0xMDI0'); /* Replace with your coffee table background image */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
     }
 
     .player {
       display: flex;
       flex-direction: column;
       align-items: center;
-      opacity: 0; /* Start hidden until token is fetched */
+      opacity: 0;
       transition: opacity 0.5s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .vinyl-container {
+      position: relative;
     }
 
     .vinyl {
@@ -36,6 +45,20 @@
       background-position: center;
       animation: spin 3s linear infinite;
       margin-bottom: 20px;
+      position: relative;
+    }
+
+    .needle {
+      width: 10px;
+      height: 120px;
+      background-color: #888;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: 50% 100%;
+      transform: translate(-50%, -100%) rotate(0deg);
+      transition: transform 0.1s ease;
+      z-index: 2;
     }
 
     @keyframes spin {
@@ -75,7 +98,10 @@
 </head>
 <body>
   <div class="player" id="player">
-    <div class="vinyl" id="vinyl"></div>
+    <div class="vinyl-container">
+      <div class="vinyl" id="vinyl"></div>
+      <div class="needle" id="needle"></div>
+    </div>
     <div class="song-info">
       <h2 id="song-title">Song Title</h2>
       <p id="artist-name">Artist Name</p>
@@ -116,10 +142,20 @@
           const albumArt = data.item.album.images[0].url;
           const songTitle = data.item.name;
           const artistName = data.item.artists.map(artist => artist.name).join(", ");
+          const durationMs = data.item.duration_ms;
+          const progressMs = data.progress_ms;
 
           document.getElementById("vinyl").style.backgroundImage = `url(${albumArt})`;
           document.getElementById("song-title").textContent = songTitle;
           document.getElementById("artist-name").textContent = artistName;
+
+          // Calculate the percentage of the song that has played
+          const progressPercentage = progressMs / durationMs;
+
+          // Calculate the needle's position: start at 100% radius and move inward based on progress
+          const needlePosition = 50 + (50 * (1 - progressPercentage)); // Needle moves from 50px to 150px based on song progress
+
+          document.getElementById("needle").style.top = `${needlePosition}%`;
 
           // Show the player after song data is loaded
           document.getElementById("player").style.opacity = 1;
