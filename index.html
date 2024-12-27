@@ -120,6 +120,27 @@
       text-align: center;
       padding: 50px;
     }
+
+    /* The gray circle effect */
+    .vinyl-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(128, 128, 128, 0.7); /* Semi-transparent gray */
+      border-radius: 50%;
+      animation: revealGrayCircle 1s forwards;
+    }
+
+    @keyframes revealGrayCircle {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -134,7 +155,10 @@
   <!-- Player Page -->
   <div class="player" id="player">
     <div class="vinyl-container">
-      <div class="vinyl" id="vinyl"></div>
+      <div class="vinyl" id="vinyl">
+        <!-- The gray overlay will be added here -->
+        <div class="vinyl-overlay" id="vinyl-overlay"></div>
+      </div>
     </div>
     <div class="song-info">
       <div class="song-info-box">
@@ -205,6 +229,10 @@
           // Show the player after song data is loaded
           document.getElementById("player").style.opacity = 1;
           document.getElementById("login-button").style.display = "none"; // Hide the login button after successful login
+
+          // Add the gray circle overlay dynamically based on progress
+          const overlay = document.getElementById("vinyl-overlay");
+          overlay.style.animation = `revealGrayCircle ${durationMs / 1000}s forwards`; // Duration of the song
         } else {
           console.log("No data available.");
         }
