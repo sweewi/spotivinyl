@@ -204,7 +204,7 @@
           const vinyl = document.getElementById("vinyl");
           vinyl.style.filter = `grayscale(${100 - (progressPercentage * 100)}%)`;
 
-          // Update shrinking circle size and opacity based on progress
+          // Update shrinking circle size based on progress
           const shrinkingCircle = document.getElementById("shrinking-circle");
           const newSize = 320 * (1 - progressPercentage); // Shrinks circle based on progress
 
