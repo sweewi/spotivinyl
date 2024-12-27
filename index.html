@@ -16,7 +16,7 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      background-image: url('https://imgs.search.brave.com/LxQJIaxuEDlhsPPlqtyl5nonMLnyZ2VEI9k3zWfHHNY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dGhld2lyZWN1dHRl/ci5jb20vd3AtY29u/dGVudC9tZWRpYS8y/MDI0LzEyL0JFU1Qt/VFVSTlRBQkxFUy1S/RUNPUkQtUExBWUVS/Uy0yMDQ4cHgtcmVr/a29yZC1mMzAwLW92/ZXJoZWFkLmpwZz9h/dXRvPXdlYnAmcXVh/bGl0eT03NSZ3aWR0/aD0xMDI0'); /* Replace with your coffee table background image */
+      background-image: url('https://imgs.search.brave.com/4Ww4CL2pmUSt_vwOlx3U73HV7lagyseTsZwuZcxNEKc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQ1/OTcxNDQyNi9waG90/by9zd2lybC5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9WVg2/ZXhock51RFRKc0kz/ZU43clBDWVdJdl9F/bTgybTF5dVd2TEhm/OE5mcz0'); /* Replace with your coffee table background image */
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -49,9 +49,9 @@
     }
 
     .needle {
-      width: 10px;
-      height: 120px;
-      background-color: #888;
+      width: 5px;
+      height: 50px;
+      background-color: #777;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -59,6 +59,19 @@
       transform: translate(-50%, -100%) rotate(0deg);
       transition: transform 0.1s ease;
       z-index: 2;
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow for a more realistic look */
+    }
+
+    .needle-tip {
+      width: 10px;
+      height: 10px;
+      background-color: #ccc;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 50%;
     }
 
     @keyframes spin {
@@ -100,7 +113,9 @@
   <div class="player" id="player">
     <div class="vinyl-container">
       <div class="vinyl" id="vinyl"></div>
-      <div class="needle" id="needle"></div>
+      <div class="needle" id="needle">
+        <div class="needle-tip"></div> <!-- Tip of the needle -->
+      </div>
     </div>
     <div class="song-info">
       <h2 id="song-title">Song Title</h2>
@@ -144,6 +159,7 @@
           const artistName = data.item.artists.map(artist => artist.name).join(", ");
           const durationMs = data.item.duration_ms;
           const progressMs = data.progress_ms;
+          const isPlaying = data.is_playing; // Track whether music is playing
 
           document.getElementById("vinyl").style.backgroundImage = `url(${albumArt})`;
           document.getElementById("song-title").textContent = songTitle;
@@ -154,8 +170,15 @@
 
           // Calculate the needle's position: start at 100% radius and move inward based on progress
           const needlePosition = 50 + (50 * (1 - progressPercentage)); // Needle moves from 50px to 150px based on song progress
-
           document.getElementById("needle").style.top = `${needlePosition}%`;
+
+          // Pause or play vinyl rotation based on playback state
+          const vinyl = document.getElementById("vinyl");
+          if (isPlaying) {
+            vinyl.style.animationPlayState = "running"; // Start spinning
+          } else {
+            vinyl.style.animationPlayState = "paused"; // Pause spinning
+          }
 
           // Show the player after song data is loaded
           document.getElementById("player").style.opacity = 1;
@@ -174,7 +197,7 @@
 
       if (accessToken) {
         // Start fetching song data
-        setInterval(() => fetchCurrentlyPlaying(accessToken), 10000);
+        setInterval(() => fetchCurrentlyPlaying(accessToken), 3000);
         fetchCurrentlyPlaying(accessToken); // Initial fetch
       } else {
         console.log("No access token found in the URL");
