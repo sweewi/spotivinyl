@@ -127,7 +127,7 @@
       width: 320px;
       height: 320px;
       border-radius: 50%;
-      background-color: rgba(128, 128, 128, 0.5); /* Semi-transparent gray */
+      background-color: rgba(128, 128, 128, 0.75); /* Semi-transparent gray */
       z-index: 2;
     }
 
@@ -207,11 +207,9 @@
           // Update shrinking circle size and opacity based on progress
           const shrinkingCircle = document.getElementById("shrinking-circle");
           const newSize = 320 * (1 - progressPercentage); // Shrinks circle based on progress
-          const newOpacity = 0.5 * (1 - progressPercentage); // Reduces opacity based on progress
 
           shrinkingCircle.style.width = `${newSize}px`;
           shrinkingCircle.style.height = `${newSize}px`;
-          shrinkingCircle.style.opacity = newOpacity;
 
           // Pause or play vinyl rotation based on playback state
           if (isPlaying) {
