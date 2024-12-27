@@ -16,7 +16,7 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      background-image: url('https://images.pexels.com/photos/1212408/pexels-photo-1212408.jpeg?cs=srgb&dl=pexels-mccutcheon-1212408.jpg&fm=jpg'); /* Replace with your coffee table background image */
+      background-image: url('https://t3.ftcdn.net/jpg/05/13/86/18/360_F_513861898_iAAdvLWOlmZuBUc4jfAAIBoDGHfSH9Pe.jpg'); /* Replace with your coffee table background image */
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -44,14 +44,14 @@
       width: 300px;
       height: 300px;
       border-radius: 50%;
-      background: black;
       background-size: cover;
       background-position: center;
       animation: spin 3s linear infinite;
       position: relative;
       z-index: 1;
-      filter: grayscale(100%); /* Start with grayscale */
-      transition: filter 0.5s ease;
+      background-image: url(''); /* Initially no image */
+      background: radial-gradient(circle, gray 0%, gray 50%, transparent 50%); /* Start with grayscale */
+      transition: background 0.5s ease;
     }
 
     @keyframes spin {
@@ -188,8 +188,10 @@
           // Calculate the percentage of the song that has played
           const progressPercentage = progressMs / durationMs;
 
-          // Apply grayscale reduction and color filling based on progress
+          // Create a radial gradient that starts with grayscale and transitions to color
+          const ringSize = 50 + (progressPercentage * 50); // Calculate the radius of the colored ring
           const vinyl = document.getElementById("vinyl");
+          vinyl.style.background = `radial-gradient(circle, gray ${ringSize}%, transparent ${ringSize}%, transparent 100%)`;
           vinyl.style.filter = `grayscale(${100 - (progressPercentage * 100)}%)`;
 
           // Pause or play vinyl rotation based on playback state
