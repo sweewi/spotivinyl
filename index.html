@@ -188,13 +188,11 @@
           // Calculate the percentage of the song that has played
           const progressPercentage = progressMs / durationMs;
 
-          // Apply grayscale reduction and color filling based on progress
+          // Apply a radial gradient to create the "revealing" gray circle effect
           const vinyl = document.getElementById("vinyl");
-          
-          // Create radial gradient effect
           vinyl.style.background = `radial-gradient(circle, gray ${progressPercentage * 100}%, transparent 0)`;
 
-          // Apply grayscale filter based on progress
+          // Apply grayscale filter based on progress (start fully gray, reduce as the song progresses)
           vinyl.style.filter = `grayscale(${100 - (progressPercentage * 100)}%)`;
 
           // Pause or play vinyl rotation based on playback state
