@@ -189,11 +189,12 @@
           const progressPercentage = progressMs / durationMs;
 
           // Apply grayscale reduction and color filling based on progress
-          const ringSize = 50 + (progressPercentage * 50); // Determine how much of the ring gets filled
           const vinyl = document.getElementById("vinyl");
+          
+          // Create radial gradient effect
+          vinyl.style.background = `radial-gradient(circle, gray ${progressPercentage * 100}%, transparent 0)`;
 
-          // Apply radial gradient with color fill
-          vinyl.style.background = `radial-gradient(circle, gray ${ringSize}%, transparent ${ringSize}%, transparent 100%)`;
+          // Apply grayscale filter based on progress
           vinyl.style.filter = `grayscale(${100 - (progressPercentage * 100)}%)`;
 
           // Pause or play vinyl rotation based on playback state
