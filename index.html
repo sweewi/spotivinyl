@@ -128,22 +128,9 @@
       height: 320px;
       border-radius: 50%;
       background-color: rgba(128, 128, 128, 0.5); /* Semi-transparent gray */
-      animation: shrinkCircle 5s linear infinite;
       z-index: 2;
     }
 
-    @keyframes shrinkCircle {
-      0% {
-        width: 320px;
-        height: 320px;
-        opacity: 0.5;
-      }
-      100% {
-        width: 0;
-        height: 0;
-        opacity: 0;
-      }
-    }
   </style>
 </head>
 <body>
@@ -216,6 +203,15 @@
           // Apply grayscale reduction and color filling based on progress
           const vinyl = document.getElementById("vinyl");
           vinyl.style.filter = `grayscale(${100 - (progressPercentage * 100)}%)`;
+
+          // Update shrinking circle size and opacity based on progress
+          const shrinkingCircle = document.getElementById("shrinking-circle");
+          const newSize = 320 * (1 - progressPercentage); // Shrinks circle based on progress
+          const newOpacity = 0.5 * (1 - progressPercentage); // Reduces opacity based on progress
+
+          shrinkingCircle.style.width = `${newSize}px`;
+          shrinkingCircle.style.height = `${newSize}px`;
+          shrinkingCircle.style.opacity = newOpacity;
 
           // Pause or play vinyl rotation based on playback state
           if (isPlaying) {
