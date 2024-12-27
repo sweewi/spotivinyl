@@ -16,7 +16,7 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      background-image: url('https://imgs.search.brave.com/4Ww4CL2pmUSt_vwOlx3U73HV7lagyseTsZwuZcxNEKc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQ1/OTcxNDQyNi9waG90/by9zd2lybC5qcGc_/cz02MTJ4NjEyJnc9/MCZrPTIwJmM9WVg2/ZXhock51RFRKc0kz/ZU43clBDWVdJdl9F/bTgybTF5dVd2TEhm/OE5mcz0'); /* Replace with your coffee table background image */
+      background-image: url('https://as2.ftcdn.net/v2/jpg/03/73/58/91/1000_F_373589156_bCqLZHuRCyXF5wrK9kVDQzQgS4ESy8dQ.jpg'); /* Replace with your coffee table background image */
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -26,14 +26,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      opacity: 0;
-      transition: opacity 0.5s;
       position: relative;
       z-index: 1;
+      opacity: 0;
+      transition: opacity 0.5s;
     }
 
     .vinyl-container {
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
     }
 
     .vinyl {
@@ -44,8 +48,8 @@
       background-size: cover;
       background-position: center;
       animation: spin 3s linear infinite;
-      margin-bottom: 20px;
       position: relative;
+      z-index: 1;
     }
 
     .needle {
@@ -85,6 +89,8 @@
 
     .song-info {
       font-size: 1.2em;
+      margin-top: 20px;
+      z-index: 2;
     }
 
     .song-info h2 {
@@ -97,19 +103,55 @@
       font-size: 1.2em;
     }
 
+    /* White box behind the text */
+    .song-info-box {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
     #login-button {
       margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1em;
+      padding: 20px 40px;
+      font-size: 1.5em;
       cursor: pointer;
       background-color: #1DB954;
       border: none;
-      border-radius: 20px;
+      border-radius: 30px;
       color: white;
+      transition: transform 0.2s;
+    }
+
+    #login-button:hover {
+      transform: scale(1.1); /* Enlarge button when hovered */
+    }
+
+    /* Login page welcome message */
+    .welcome-message {
+      font-size: 2em;
+      font-weight: bold;
+      margin-top: 20px;
+      color: white;
+    }
+
+    /* Login page container */
+    .login-page-container {
+      text-align: center;
+      padding: 50px;
     }
   </style>
 </head>
 <body>
+  <!-- Login Page -->
+  <div class="login-page-container">
+    <div class="welcome-message">
+      Welcome to Spotivinyl!
+    </div>
+    <button id="login-button">Login with Spotify</button>
+  </div>
+
+  <!-- Player Page -->
   <div class="player" id="player">
     <div class="vinyl-container">
       <div class="vinyl" id="vinyl"></div>
@@ -118,11 +160,12 @@
       </div>
     </div>
     <div class="song-info">
-      <h2 id="song-title">Song Title</h2>
-      <p id="artist-name">Artist Name</p>
+      <div class="song-info-box">
+        <h2 id="song-title">Song Title</h2>
+        <p id="artist-name">Artist Name</p>
+      </div>
     </div>
   </div>
-  <button id="login-button">Login with Spotify</button>
 
   <script>
     const clientId = "6c29448dd9af438fad708cbf4de70407"; // Replace with your Spotify Client ID
@@ -197,7 +240,7 @@
 
       if (accessToken) {
         // Start fetching song data
-        setInterval(() => fetchCurrentlyPlaying(accessToken), 3000);
+        setInterval(() => fetchCurrentlyPlaying(accessToken), 1500);
         fetchCurrentlyPlaying(accessToken); // Initial fetch
       } else {
         console.log("No access token found in the URL");
